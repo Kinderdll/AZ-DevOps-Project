@@ -32,7 +32,7 @@ jobs:
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name : Build the Docker Image
         working-directory : Shopping.Client
-        run: docker build -t kinderdll/shoppingapp . -f Dockerfile.Dockerfile
+        run: docker build -t kinderdll/shoppingapp . -f Dockerfile
         
       - name: Docker Hub push
         run: docker push ${{secrets.DOCKER_REPO}}
