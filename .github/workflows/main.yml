@@ -31,7 +31,8 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name : Build the Docker Image
-        run: docker build -t kinderdll/shoppingapp -f .\Shopping.Client\Dockerfile .
+        working-directory : Shopping.Client
+        run: docker build -t kinderdll/shoppingapp . -f Dockerfile.Dockerfile
         
       - name: Docker Hub push
         run: docker push ${{secrets.DOCKER_REPO}}
