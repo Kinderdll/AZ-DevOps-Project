@@ -31,8 +31,7 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name : Build the Docker Image
-        working-directory: Shopping.Client
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{secrets.ENV_NAME}} -f Dockerfile .
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/${{secrets.ENV_NAME}} -f .\Shopping.Client\Dockerfile .
         
       - name: Docker Hub push
         run: docker push ${{secrets.DOCKER_REPO}}
