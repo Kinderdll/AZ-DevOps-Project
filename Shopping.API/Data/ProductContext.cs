@@ -1,14 +1,45 @@
 ﻿
+using MongoDB.Driver;
 using Shopping.API.Models;
 
 namespace Shopping.API.Data
 {
-    public static class ProductContext
+    public class ProductContext
     {
-
-        public static readonly List<Product> Products = new List<Product>
+        public ProductContext(IConfiguration configuration)
         {
-            new Product()
+            var dbhost = "localhost";
+            var dbName = "ProductDb";
+            var connectionString = $"mongodb://{dbhost}:27017/{dbName}";
+            //var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
+            //var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+
+            var mongoUrl = MongoUrl.Create(connectionString);
+            var mongoClient = new MongoClient(mongoUrl);
+            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+            Products = database.GetCollection<Product>("Products");
+
+
+            
+            SeedData(Products);
+        }
+
+        public IMongoCollection<Product> Products { get; }
+
+        private static void SeedData(IMongoCollection<Product> productCollection)
+        {
+            bool existProduct = productCollection.Find(p => true).Any();
+            if (!existProduct)
+            {
+                productCollection.InsertManyAsync(GetPreconfiguredProducts());
+            }
+        }
+
+        private static IEnumerable<Product> GetPreconfiguredProducts()
+        {
+            return new List<Product>()
+            {
+                new Product()
             {
                 Name = "IPhone X",
                 Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
@@ -56,6 +87,60 @@ namespace Shopping.API.Data
                 Price = 240.00M,
                 Category = "Home Kitchen"
             }
-        };
+            };
+        }
+
+
+        //public static readonly List<Product> Products = new List<Product>
+        //{
+        //    new Product()
+        //    {
+        //        Name = "IPhone X",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-1.png",
+        //        Price = 950.00M,
+        //        Category = "Smart Phone"
+        //    },
+        //    new Product()
+        //    {
+        //        Name = "Samsung 10",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-2.png",
+        //        Price = 840.00M,
+        //        Category = "Smart Phone"
+        //    },
+        //    new Product()
+        //    {
+        //        Name = "Huawei Plus",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-3.png",
+        //        Price = 650.00M,
+        //        Category = "White Appliances"
+        //    },
+        //    new Product()
+        //    {
+        //        Name = "Xiaomi Mi 9",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-4.png",
+        //        Price = 470.00M,
+        //        Category = "White Appliances"
+        //    },
+        //    new Product()
+        //    {
+        //        Name = "HTC U11+ Plus",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-5.png",
+        //        Price = 380.00M,
+        //        Category = "Smart Phone"
+        //    },
+        //    new Product()
+        //    {
+        //        Name = "LG G7 ThinQ EndofCourse",
+        //        Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+        //        ImageFile = "product-6.png",
+        //        Price = 240.00M,
+        //        Category = "Home Kitchen"
+        //    }
+        //};
     }
 }
