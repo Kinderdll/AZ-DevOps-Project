@@ -8,7 +8,7 @@ namespace Shopping.API.Data
     {
         public ProductContext(IConfiguration configuration)
         {
-            var dbhost = "localhost";
+            var dbhost = "shoppingdb";
             var dbName = "ProductDb";
             var connectionString = $"mongodb://{dbhost}:27017/{dbName}";
             //var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
