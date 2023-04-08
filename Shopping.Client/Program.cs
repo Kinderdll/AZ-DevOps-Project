@@ -5,7 +5,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("ShoppingAPIClient", client =>
 {
     //ShoppingAPI URL
-    client.BaseAddress = new Uri("http://shoppingapi:5000/");
+    client.BaseAddress = new Uri("http://shoppingapi:8000/");
+    client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ShoppingAPIUrl"));
+
 }); 
 var app = builder.Build();
 
