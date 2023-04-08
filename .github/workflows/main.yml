@@ -36,7 +36,8 @@ jobs:
       - name : Build the Docker Image for API
         working-directory : Shopping.API
         run: docker build -f ./Dockerfile --force-rm -t ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_API}}:latest ..
-        
-      - name: Docker Hub push
-        run: docker push ${{secrets.DOCKER_REPO}}
+      - name: Docker Hub push client
+        run: docker push ${{secrets.DOCKER_REPO_CLIENT}}  
+      - name: Docker Hub push api
+        run: docker push ${{secrets.DOCKER_REPO_API}}
       
