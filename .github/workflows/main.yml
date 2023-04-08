@@ -30,9 +30,12 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name : Build the Docker Image
+      - name : Build the Docker Image for Client
         working-directory : Shopping.Client
-        run: docker build -f ./Dockerfile --force-rm -t ${{secrets.DOCKER_USERNAME}}/${{secrets.ENV_NAME}}:latest ..
+        run: docker build -f ./Dockerfile --force-rm -t ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_CLIENT}}:latest ..
+      - name : Build the Docker Image for API
+        working-directory : Shopping.API
+        run: docker build -f ./Dockerfile --force-rm -t ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_API}}:latest ..
         
       - name: Docker Hub push
         run: docker push ${{secrets.DOCKER_REPO}}
