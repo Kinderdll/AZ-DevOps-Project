@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  shoppingapi-deployment
+  name: shoppingapi-deployment
   labels:
-    app:  shoppingapi
+    app: shoppingapi
 spec:
   selector:
     matchLabels:
@@ -12,11 +12,11 @@ spec:
   template:
     metadata:
       labels:
-        app:  shoppingapi
+        app: shoppingapi
     spec:
       containers:
       - name:  shoppingapi
-        image:  kinderdllacr.azurerc.io/shoppingapi:v2
+        image: kinderdllacr.azurecr.io/shoppingapi:latest
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 80
@@ -30,10 +30,10 @@ spec:
                 key: connection_string
         resources:
           requests:
-            cpu: "250m"
+            cpu: "0.1"
             memory: "64Mi"
           limits:
-            cpu: "500m"
+            cpu: "0.3"
             memory: "128Mi"
       imagePullSecrets:
         - name: acr-secret
@@ -43,12 +43,9 @@ kind: Service
 metadata:
   name: shoppingapi-service
 spec:
-  type: NodePort
   selector:
     app: shoppingapi
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 80
-      nodePort: 31000
+      port: 80
         

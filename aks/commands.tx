@@ -1,0 +1,33 @@
+ az login (eyth_dellis@hotmail.com)
+az group create --name myResourceGroup --location westeurope
+az acr create --resource-group myResourceGroup --name kinderdllacr --sku Basic
+##protect acr by enabling admin account
+az acr update -n kinderdllacr --admin-enabled true
+## login to ACR
+az acr login --name kinderdllacr
+## get loginserver
+az acr list --resource-grou myResourceGroup --query "[].{acrLoginServer:loginServer}" --output table
+-->produces kinderdllacr.azurecr.io
+##tag images before pushing to kinderdllacr
+docker tag shoppingapi:dev kinderdllacr.azurecr.io/shoppingapi:v1
+docker tag shoppingclient:dev kinderdllacr.azurecr.io/shoppingclient:v1
+## docker push
+docker push kinderdllacr.azurecr.io/shoppingapi:v1
+docker push kinderdllacr.azurecr.io/shoppingclient:v1
+## list repository in acr repo
+az acr repository list --name kinderdllacr --output table
+#list tags of repositorys in acr
+az acr repository show-tags  --name kinderdllacr --repository shoppingclient --output table
+
+##create AKS Cluster
+az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 1 --generate-ssh-keys --attach-acr kinderdllacr
+## in order to connect to k8s cluster from local machine install az cli
+## it will download the client
+az aks install-cli
+## need credentials to connect
+az aks get-credentials --resource-group myResourceGroup --name myAKSCluster 
+## it will append credentials to \.kube\config
+##verify step
+kubectl config get-contexts
+## create secret for docker-registry so cluster can access images
+kubectl create secret docker-registry acr-secret --docker-server=kinderdllacr.azurecr.io --docker-username=kinderdllacr --docker-password=xZzZaqq0PXs7JoQCn21A7DZTPwWSElJJPaHTg05m8y+ACRCcrOyi --docker-email=eyth_dellis@hotmail.com

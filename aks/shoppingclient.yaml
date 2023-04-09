@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: shoppingclient
-          image: kinderdllacr.azurecr.io/shoppingclient:v2
+          image: kinderdllacr.azurecr.io/shoppingclient:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
@@ -30,11 +30,11 @@ spec:
                     key: shoppingapi_url
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
+              memory: "256Mi"
+              cpu: "0.1"
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "512Mi"
+              cpu: "0.3"
       imagePullSecrets:
         - name: acr-secret
 ---
@@ -43,11 +43,9 @@ kind: Service
 metadata:
   name: shoppingclient-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: shoppingclient
   ports:
     - protocol: TCP
-      port: 8001
-      targetPort: 80
-      nodePort: 30000
+      port: 80
