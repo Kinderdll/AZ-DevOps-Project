@@ -31,5 +31,4 @@ jobs:
       with:
         push: true
         tags: kinderdllacr.azurecr.io/test:v1
-        working-directory : Shopping.Client
-        file: ./Dockerfile
+        file: Shopping.Client/Dockerfile
