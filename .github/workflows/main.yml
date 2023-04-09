@@ -42,33 +42,37 @@ jobs:
       - name: Docker Hub push api
         run: docker push ${{secrets.DOCKER_REPO_API}}
 
-
-  build-and-push-on-ACR:
-    name: second_job
+  docker_build_push_acr:
+    name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+     run:
+       shell: bash
+  
     steps:
-    # checkout the repo
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@main    
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }} 
-    - name: 'Build and push images'
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+  
+    - name: 'Docker Login'
       uses: azure/docker-login@v1
       with:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - name : Build the Docker Image for Client
-      working-directory : Shopping.Client
-      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:v2 ..
-    - name : Build the Docker Image for API
-      working-directory : Shopping.API
-      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2 ..
-    - name: Docker Hub push client
-      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2 
-    - name: Docker Hub push api
-      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2
+ 
+    - name: Build the frontend image and push it to ACR
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: kinderdllacr.azurecr.io/shoppingclient:v2
+        file: Shopping.Client/Dockerfile
+    - name: Build the backend image and push it to ACR
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: kinderdllacr.azurecr.io/shoppingapi:v2
+        file: Shopping.API/Dockerfile
 
   
