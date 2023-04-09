@@ -6,7 +6,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - "DatabaseSettings:ConnectionString=mongodb://shoppingdb:27017"
+      - "DatabaseSettings:ConnectionString=mongodb://shoppingdb"
     ports:
       - "8000:80"
     depends_on:
