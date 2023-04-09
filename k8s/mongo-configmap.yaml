@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: mongo-configmap
 data:
-  connection_string: bW9uZ29kYjovL3VzZXJuYW1lOnBhc3N3b3JkQG1vbmdvLXNlcnZpY2U6MjcwMTc=
+  connection_string: mongodb://username:password@mongo-service:27017
