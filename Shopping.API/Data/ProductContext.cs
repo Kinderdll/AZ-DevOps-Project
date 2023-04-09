@@ -8,17 +8,16 @@ namespace Shopping.API.Data
     {
         public ProductContext(IConfiguration configuration)
         {
-            var dbhost = "shoppingdb";
-            var dbName = "ProductDb";
-            var connectionString = $"mongodb://{dbhost}:27017/{dbName}";
-            //var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
-            //var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
+            
+            var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
+            var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 
-            var mongoUrl = MongoUrl.Create(connectionString);
-            var mongoClient = new MongoClient(mongoUrl);
-            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
-            Products = database.GetCollection<Product>("Products");
+            Products = database.GetCollection<Product>(configuration["DatabaseSettings:CollectionName"]);
 
+            //var mongoUrl = MongoUrl.Create(connectionString);
+            //var mongoClient = new MongoClient(mongoUrl);
+            //var database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+            //Products = database.GetCollection<Product>("Products");
 
             
             SeedData(Products);
