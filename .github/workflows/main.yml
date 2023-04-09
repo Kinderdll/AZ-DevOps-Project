@@ -62,13 +62,13 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name : Build the Docker Image for Client
       working-directory : Shopping.Client
-      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:latest ..
+      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:v2 ..
     - name : Build the Docker Image for API
       working-directory : Shopping.API
-      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest ..
+      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2 ..
     - name: Docker Hub push client
-      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest 
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2 
     - name: Docker Hub push api
-      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:v2
 
   
