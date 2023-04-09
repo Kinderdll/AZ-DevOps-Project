@@ -1,0 +1,6 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: shoppingapi-configmap
+data:
+  shoppingapi_url: http://shoppingapi-service:8000
