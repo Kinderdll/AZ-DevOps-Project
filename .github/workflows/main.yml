@@ -17,6 +17,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build-and-push-on-DockerHub:
+    name: first_job
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -43,6 +44,7 @@ jobs:
 
 
   build-and-push-on-ACR:
+    name: second_job
     runs-on: ubuntu-latest
     steps:
     # checkout the repo
@@ -58,8 +60,15 @@ jobs:
         login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:latest
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:latest
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest
+    - name : Build the Docker Image for Client
+      working-directory : Shopping.Client
+      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingapi:latest ..
+    - name : Build the Docker Image for API
+      working-directory : Shopping.API
+      run: docker build -f ./Dockerfile --force-rm -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest ..
+    - name: Docker Hub push client
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest 
+    - name: Docker Hub push api
+      run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/shoppingclient:latest
+
+  
