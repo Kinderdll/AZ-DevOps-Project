@@ -66,13 +66,32 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: kinderdllacr.azurecr.io/shoppingclient:v2
+        tags: kinderdllacr.azurecr.io/shoppingclient:latest
         file: Shopping.Client/Dockerfile
     - name: Build the backend image and push it to ACR
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: kinderdllacr.azurecr.io/shoppingapi:v2
+        tags: kinderdllacr.azurecr.io/shoppingapi:latest
         file: Shopping.API/Dockerfile
 
-  
+  deploy_to_Kubernetes_on_ACR_image_push:
+    name: 'Deploy to K8s on ACR Image Push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ vars.AZURE_CREDENTIALS }}
+      - name: Get ACR Image Digest
+        id: get_image_digest
+        run: |
+            echo "::set-output name=shoppingapi::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingapi:latest)"
+            echo "::set-output name=shoppingclient::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingclient:latest)"
+        
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f aks/.
