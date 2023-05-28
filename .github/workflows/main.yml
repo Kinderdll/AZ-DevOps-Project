@@ -74,7 +74,7 @@ jobs:
           creds: ${{ vars.AZURE_CREDENTIALS }}
       - name: Login to ACR
         run: |
-         echo ${{ steps.get-acr-password.outputs.acr-password }} | docker login kinderdllacr.azurecr.io --username ${{ vars.ACR_APP_ID }} --password-stdin
+         echo ${{ steps.get-acr-password.outputs.acr-password }} | az acr login --name kinderdllacr --username kinderdllacr --password-stdin
   docker_build_push_acr:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
