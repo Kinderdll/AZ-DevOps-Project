@@ -65,7 +65,7 @@ jobs:
     steps:
      - name: Assign role to service principal
        run: |
-        az login --service-principal --username ${{ vars.AZURE_SP_APPID }} --password ${{ vars.AZURE_SP_PASSWORD }} --tenant ${{ vars.AZURE_SP_TENANT }}
+        az login --service-principal --username myAKSClusterSP --password ${{ vars.AZURE_SP_PASSWORD }} --tenant ${{ vars.AZURE_SP_TENANT }}
         az role assignment create --assignee ${{ vars.AZURE_SP_APPID }} --role 'Contributor' --scope "/subscriptions/${{ vars.AZURE_SP_SUBSCRIPTION}}"
      - name: Checkout repository
        uses: actions/checkout@v2
@@ -76,7 +76,7 @@ jobs:
      - name: Retrieve ACR Password
        id: acr
        run: |
-        acrPassword=$(az acr credential show --name <your-acr-name> --query "passwords[0].value" --output tsv)
+        acrPassword=$(az acr credential show --name kinderdllacr --query "passwords[0].value" --output tsv)
         echo "::set-output name=acrPassword::$acrPassword"
      - name: Log in to ACR
        run: |
