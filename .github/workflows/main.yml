@@ -68,9 +68,13 @@ jobs:
         run: echo "::set-output name=acr-password::${{ secrets.ACR_PASSWORD }}"
       - name: Use ACR password
         run: echo "ACR password is ${{ steps.get-acr-password.outputs.acr-password }}"
+      - name: Get ACR Client ID
+        run: |
+          acrClientId=$(az acr show --name kinderdllacr --resource-group myResourceGroup --query "id" --output tsv)
+          echo "ACR_CLIENT_ID=$acrClientId" >> $GITHUB_ENV
       - name: Login to ACR
         run: |
-         echo ${{ steps.get-acr-password.outputs.acr-password }} | docker login kinderdllacr.azurecr.io --username kinderdll --password-stdin
+         echo ${{ steps.get-acr-password.outputs.acr-password }} | docker login kinderdllacr.azurecr.io --username ${{ env.ACR_CLIENT_ID }} --password-stdin
   docker_build_push_acr:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
