@@ -91,8 +91,12 @@ jobs:
         run: |
             echo "::set-output name=shoppingapi::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingapi:latest)"
             echo "::set-output name=shoppingclient::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingclient:latest)"
-        
-
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: 'latest'
+      - name: Ensure Cluster Availability
+        run: "az aks show --resource-group myResourceGroup --name myAKSCluster"
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
