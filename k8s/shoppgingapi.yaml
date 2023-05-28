@@ -17,7 +17,7 @@ spec:
       containers:
       - name:  shoppingapi
         image:  kinderdllacr.azurerc.io/shoppingapi:v2
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - containerPort: 80
         env:
