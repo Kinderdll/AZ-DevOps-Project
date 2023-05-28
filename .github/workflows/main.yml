@@ -68,6 +68,10 @@ jobs:
         run: echo "::set-output name=acr-password::${{ secrets.ACR_PASSWORD }}"
       - name: Use ACR password
         run: echo "ACR password is ${{ steps.get-acr-password.outputs.acr-password }}"
+      - name: AZ Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ vars.AZURE_CREDENTIALS }}
       - name: Get ACR Client ID
         run: |
           acrClientId=$(az acr show --name kinderdllacr --resource-group myResourceGroup --query "id" --output tsv)
