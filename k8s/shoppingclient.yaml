@@ -17,7 +17,7 @@ spec:
       containers:
         - name: shoppingclient
           image: kinderdllacr.azurecr.io/shoppingclient:v2
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
