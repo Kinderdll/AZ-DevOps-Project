@@ -1,4 +1,4 @@
- az login (eyth_dellis@hotmail.com)
+az login (eyth_dellis@hotmail.com)
 az group create --name myResourceGroup --location westeurope
 az acr create --resource-group myResourceGroup --name kinderdllacr --sku Basic
 ##protect acr by enabling admin account
@@ -18,6 +18,32 @@ docker push kinderdllacr.azurecr.io/shoppingclient:v1
 az acr repository list --name kinderdllacr --output table
 #list tags of repositorys in acr
 az acr repository show-tags  --name kinderdllacr --repository shoppingclient --output table
+
+
+
+##Prerequisite to interact with AKS
+#Your subscription ID
+#Your tenant ID
+#An app ID (also called a client ID)
+#Client secret
+#A resource group
+
+az ad sp create-for-rbac --skip-assignment
+(Check Azure Portal on AAD, App registrations)
+
+#Add Contributor role to service principal
+az role assignment create \
+  --assignee $appId \
+  --scope /subscriptions/$<SUBSCRIPTION-ID>/resourceGroups/$<GROUP> \
+  --role Contributor
+
+In our case =>
+``````````````````````````` 
+    az role assignment create \
+    --assignee "204e7af1-1827-4f50-a892-e3cbb27d619a" \
+    --scope /subscriptions/55dcf74d-5144-4dba-af4c-1f80419b91e6/resourceGroups/myResourceGroup \
+    --role Contributor
+````````````````````````````
 
 ##create AKS Cluster
 az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 1 --generate-ssh-keys --attach-acr kinderdllacr

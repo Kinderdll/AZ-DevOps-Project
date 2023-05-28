@@ -1,0 +1,39 @@
+We will setup service principal to interact with our infrastructure, give it permissions to manage everything
+az login
+TENANT_ID=<copy-paste your TENANT_ID>
+az account list -o table 
+SUBSCRIPTION=<cop-paste your SUBSCRIPTION_ID>
+just to make sure that any commands we run , will target this subscription, so
+az account set --subscription $SUBSCRIPTION
+
+#SETUP Service principal
+SERVICE_PRINCIPAL_JSON=$(az ad sp create-for-rbac --skip-assignment --name myAKSClusterSP -o json)
+SERVICE_PRINCIPAL=$(echo $SERVICE_PRINCIPAL_JSON | jq -r '.appId')
+SERVICE_PRINCIPAL_SECRET=$(echo $SERVICE_PRINCIPAL_JSON | jq -r '.password')
+Currently this SP has no permissions so we need to give at least Contributor permissions, so it can manage infrastructure
+az role assignment create --assignee $SERVICE_PRINCIPAL \
+--scope "/subscriptions/$SUBSCRIPTION" \
+--role Contributor
+(or we could narrow it down to resource group adding <--scope>/resourceGroups/$RESOURCEGROUP" )
+
+
+
+Setup Terraform (need to have terraform in place)
+create main.tf
+create variables.tf
+test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var service_principal_key=$SERVICE_PRINCIPAL_SECRET -var tenant_id=$TENANT_ID -var subscription_id=$SUBSCRIPTION
+(this command will hide all secret info outside github) 
+
+CREATE CLUSTER MODULE
+create cluster.tf
+create variables.tf (needed for SP)
+
+CREATE SSH for CLUSTER
+ssh-keygen -t rsa -b 4096 -N "VeryStrongSecret123!" -C "eyth_dellis@hotmail.com" -q -f ~/.ssh/akscluster/id_rsa
+SSH_KEY=$(cat ~/.ssh/akscluster/id_rsa.pub)
+
+test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var service_principal_key=$SERVICE_PRINCIPAL_SECRET -var tenant_id=$TENANT_ID -var subscription_id=$SUBSCRIPTION -var ssh_key="$SSH_KEY"
+
+
+EXPOR CREDS to \.kube\config
+az aks get-credentials -n myAKSCluster -g myResourceGroup 
