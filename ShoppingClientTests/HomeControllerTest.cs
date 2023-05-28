@@ -2,6 +2,7 @@
 using Moq;
 using Shopping.Client.Controllers;
 using Shopping.Client.Models;
+using System.Net.Http;
 using Xunit;
 
 namespace Shopping.Client.Tests
