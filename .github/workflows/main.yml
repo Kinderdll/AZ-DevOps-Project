@@ -97,6 +97,8 @@ jobs:
           version: 'latest'
       - name: Ensure Cluster Availability
         run: "az aks show --resource-group myResourceGroup --name myAKSCluster"
+      - name: Configure kubectl
+        run: "az aks get-credentials --resource-group myResourceGroup --name myAKSCluster"
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
