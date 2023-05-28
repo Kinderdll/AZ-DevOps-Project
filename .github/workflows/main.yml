@@ -74,7 +74,7 @@ jobs:
           creds: ${{ vars.AZURE_CREDENTIALS }}
       - name: Get ACR Client ID
         run: |
-          acrClientId=$(az acr show --name kinderdllacr --resource-group myResourceGroup --query "id" --output tsv)
+          acrClientId=$(az ad app list --display-name myAKSClusterSP --query "[0].appId" --output tsv)
           echo "ACR_CLIENT_ID=$acrClientId" >> $GITHUB_ENV
       - name: Login to ACR
         run: |
