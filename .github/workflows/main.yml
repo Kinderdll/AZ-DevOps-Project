@@ -68,6 +68,9 @@ jobs:
         run: echo "::set-output name=acr-password::${{ secrets.ACR_PASSWORD }}"
       - name: Use ACR password
         run: echo "ACR password is ${{ steps.get-acr-password.outputs.acr-password }}"
+      - name: Login to ACR
+        run: |
+         echo ${{ steps.get-acr-password.outputs.acr-password }} | docker login kinderdllacr.azurecr.io --username kinderdll --password-stdin
   docker_build_push_acr:
     name: 'Docker Build and Push to ACR'
     runs-on: ubuntu-latest
@@ -76,19 +79,10 @@ jobs:
     defaults:
       run:
         shell: bash
-  
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-  
-    - name: 'Docker Login'
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ vars.ACREGISTRY_LOGIN_SERVER }}
-        username: ${{ vars.ACREGISTRY_USERNAME }}
-        password: ${{ vars.ACREGISTRY_PASSWORD }}
- 
     - name: Build the frontend image and push it to ACR
       uses: docker/build-push-action@v2
       with:
