@@ -38,9 +38,9 @@ jobs:
         working-directory : Shopping.API
         run: docker build -f ./Dockerfile --force-rm -t ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest ..
       - name: Docker Hub push client
-        run: docker push  ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:v2
+        run: docker push  ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:latest
       - name: Docker Hub push api
-        run: docker push ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:v2
+        run: docker push ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest
 
   docker_build_push_acr:
     name: 'Docker Build and Push to ACR'
