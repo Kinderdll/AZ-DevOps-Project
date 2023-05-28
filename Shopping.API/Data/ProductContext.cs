@@ -42,7 +42,7 @@ namespace Shopping.API.Data
             {
                 Name = "IPhone X",
                 Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test-image.png",
+                ImageFile = "test-image1.png",
                 Price = 950.00M,
                 Category = "Smart Phone"
             },
