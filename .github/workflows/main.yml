@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: dotnet build ShoppingClientTests/ShoppingClientTests.csproj
       - name: Test with the dotnet CLI
-        run: dotnet test --filter FullyQualifiedName~HomeControllerTests
+        run: dotnet test  ShoppingClientTests/ShoppingClientTests.csproj --filter FullyQualifiedName~HomeControllerTests
   # This workflow contains a single job called "build"
   build-and-push-on-DockerHub:
     name: 'Docker Build and Push to Docker Hub'
