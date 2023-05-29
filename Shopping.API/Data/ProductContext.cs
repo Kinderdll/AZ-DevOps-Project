@@ -50,7 +50,7 @@ namespace Shopping.API.Data
             {
                 Name = "Samsung 10",
                 Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test-image.png",
+                ImageFile = "test-2.png",
                 Price = 840.00M,
                 Category = "Smart Phone"
             },
@@ -58,7 +58,7 @@ namespace Shopping.API.Data
             {
                 Name = "Huawei Plus",
                 Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test-image.png",
+                ImageFile = "test-3.png",
                 Price = 650.00M,
                 Category = "White Appliances"
             },
