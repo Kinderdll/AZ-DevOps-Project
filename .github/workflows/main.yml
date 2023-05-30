@@ -113,17 +113,6 @@ jobs:
           version: 'latest'
       - name: Ensure Cluster Availability
         run: "az aks show --resource-group myResourceGroup --name myAKSCluster"
-      - name: Set up permissions
-        uses: actions/checkout@v2
-
-      - name: Set up Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ vars.AZURE_CREDENTIALS }}
-
-      - name: Assign Role to AKS Cluster
-        run: |
-          az role assignment create --assignee ${{ vars.ACR_APP_ID}} --role "Contributor" --scope ${{vars.PERMS_TO_CLUSTER_PATH}}
       - name: Configure kubectl
         run: "az aks get-credentials --resource-group myResourceGroup --name myAKSCluster"
       - name: Install Helm
