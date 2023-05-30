@@ -34,7 +34,7 @@ SSH_KEY=$(cat ~/.ssh/akscluster/id_rsa.pub)
 
 test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var service_principal_key=$SERVICE_PRINCIPAL_SECRET -var tenant_id=$TENANT_ID -var subscription_id=$SUBSCRIPTION -var ssh_key="$SSH_KEY"
 
-
+terraform plan -var ssh_key="$SSH_KEY" -out plan.tfplan -destroy
 EXPOR CREDS to \.kube\config
 az aks get-credentials -n myAKSCluster -g myResourceGroup 
 
