@@ -114,7 +114,7 @@ jobs:
       - name: Ensure Cluster Availability
         run: "az aks show --resource-group myResourceGroup --name myAKSCluster"
       - name: Set up permissions
-        run: "az role assignment create --assignee ${{ vars.ACR_APP_ID}} --role "Contributor" --scope /subscriptions/55dcf74d-5144-4dba-af4c-1f80419b91e6/resourcegroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/myAKSCluster
+        run: az role assignment create --assignee ${{ vars.ACR_APP_ID}} --role "Contributor" --scope ${{vars.PERMS_TO_CLUSTER_PATH}}
       - name: Configure kubectl
         run: "az aks get-credentials --resource-group myResourceGroup --name myAKSCluster"
       - name: Install Helm
