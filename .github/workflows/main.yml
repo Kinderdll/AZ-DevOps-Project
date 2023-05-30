@@ -124,7 +124,8 @@ jobs:
             sudo apt-get install helm
       - name: Install NGINX via helm
         run: |
-          helm upgrade --install ingress-nginx ingress-nginx  --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace -f nginx/nginx-values.yaml
+          #helm upgrade --install ingress-nginx ingress-nginx  --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace  -f nginx/nginx-values.yaml
+
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
