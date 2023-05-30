@@ -37,3 +37,7 @@ test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var ser
 
 EXPOR CREDS to \.kube\config
 az aks get-credentials -n myAKSCluster -g myResourceGroup 
+
+####NOTES###
+update acr password gitlab vars
+update agic id in gitlab vars

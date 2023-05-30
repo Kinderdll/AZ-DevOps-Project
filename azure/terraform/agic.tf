@@ -32,12 +32,19 @@ locals {
   redirect_configuration_name    = "${azurerm_virtual_network.myAGICVN.name}-rdrcfg"
 }
 
+resource "azurerm_public_ip" "myPublicIP" {
+  name                = "my-public-ip"
+  location            = azurerm_resource_group.myResourceGroup.location
+  resource_group_name = azurerm_resource_group.myResourceGroup.name
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_application_gateway" "myAG" {
   name                = "myAG"
   resource_group_name = azurerm_resource_group.myResourceGroup.name
   location            = azurerm_resource_group.myResourceGroup.location
 
-   sku {
+    sku {
     name     = "Standard_Small"
     tier     = "Standard"
     capacity = 1
@@ -51,11 +58,13 @@ resource "azurerm_application_gateway" "myAG" {
   frontend_port {
     name = local.frontend_port_name
     port = 80
+    
   }
 
   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name
-    subnet_id = "${azurerm_subnet.frontend.id}"
+    #subnet_id = "${azurerm_subnet.frontend.id}"
+    public_ip_address_id = azurerm_public_ip.myPublicIP.id
   }
 
   backend_address_pool {
