@@ -49,3 +49,22 @@ spec:
   ports:
     - protocol: TCP
       port: 80
+---
+piVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shoppingclient-ingress
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Exact
+        backend:
+          service:
+            name: shoppingclient-service
+            port:
+              number: 80

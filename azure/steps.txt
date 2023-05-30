@@ -39,5 +39,12 @@ EXPOR CREDS to \.kube\config
 az aks get-credentials -n myAKSCluster -g myResourceGroup 
 
 ####NOTES###
-update acr password gitlab vars
-update agic id in gitlab vars
+
+-- Once you deploy terraform files:
+#az network public-ip show -g k8srg -n nginx-public-ip | jq .ipAddress -r (to grap public-ip for NGINX)
+Get public ip
+Then go to aks > nginx-values.yaml and update IP
+Also update acr password gitlab vars
+-- 
+
+

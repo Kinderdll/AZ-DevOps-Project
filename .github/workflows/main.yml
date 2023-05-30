@@ -115,8 +115,18 @@ jobs:
         run: "az aks show --resource-group myResourceGroup --name myAKSCluster"
       - name: Configure kubectl
         run: "az aks get-credentials --resource-group myResourceGroup --name myAKSCluster"
-      - name: Enable AGIC add-on
-        run: "az aks enable-addons --addons ingress-appgw --appgw-id ${{vars.AGIC_ID}} --resource-group myResourceGroup --name myAKSCluster"
+      - name: Install Helm
+        run: |
+            curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+            sudo apt-get install apt-transport-https --yes
+            echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+            sudo apt-get update
+            sudo apt-get install helm
+      - name: Install NGINX via helm
+        run: |
+          helm upgrade --install ingress-nginx ingress-nginx \                                     
+          --repo https://kubernetes.github.io/ingress-nginx \
+          --namespace ingress-nginx --create-namespace -f ./aks/nginx-values.yaml
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
