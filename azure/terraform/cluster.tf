@@ -24,6 +24,7 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
     client_id = var.service_principal_id
     client_secret = var.service_principal_key
   }
+
   #IN case we need to access node
   linux_profile {
     admin_username = "azureuser"
@@ -36,6 +37,8 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
     network_plugin = "kubenet"
     load_balancer_sku = "basic"
   }
+
+  
 
 
 }

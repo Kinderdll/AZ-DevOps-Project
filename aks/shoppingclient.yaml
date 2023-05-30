@@ -43,7 +43,7 @@ kind: Service
 metadata:
   name: shoppingclient-service
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
   selector:
     app: shoppingclient
   ports:
