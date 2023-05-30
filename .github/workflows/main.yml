@@ -102,6 +102,8 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ vars.AZURE_CREDENTIALS }}
+      - name: Set up permissions
+        run: "az role assignment create --assignee ${{ vars.ACR_APP_ID}} --role "Contributor" --scope /subscriptions/55dcf74d-5144-4dba-af4c-1f80419b91e6/resourcegroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/myAKSCluster
       - name: Get ACR Image Digest
         id: get_image_digest
         run: |
