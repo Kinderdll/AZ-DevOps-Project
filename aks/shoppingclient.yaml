@@ -61,7 +61,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /products
         pathType: Exact
         backend:
           service:
