@@ -59,7 +59,6 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: 40.118.45.3  # Replace with the IP address from Terraform
     http:
       paths:
       - path: /
