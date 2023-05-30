@@ -116,7 +116,7 @@ jobs:
       - name: Configure kubectl
         run: "az aks get-credentials --resource-group myResourceGroup --name myAKSCluster"
       - name: Enable AGIC add-on
-        run: "az aks enable-addons --addons ingress-appgw --appgw-id ${{vars.AGIC_ID}} --resource-group myResourceGroup --name myAKSCluster
+        run: "az aks enable-addons --addons ingress-appgw --appgw-id ${{vars.AGIC_ID}} --resource-group myResourceGroup --name myAKSCluster"
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
