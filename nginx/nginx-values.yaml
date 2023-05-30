@@ -1,8 +1,5 @@
 controller:
   service:
     loadBalancerIP: 13.69.51.51
-    annotations: 
-      - "service.beta.kubernetes.io/azure-load-balancer-internal=true"
-      - "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path=/healthz"
 
       
