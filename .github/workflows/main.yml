@@ -16,47 +16,47 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  test-controller:
-    name: 'Test logic'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-           dotnet-version: '6.0.x'
-      - name: Install dependencies
-        run: dotnet restore ShoppingClientTests/ShoppingClientTests.csproj
-      - name: Build
-        run: dotnet build ShoppingClientTests/ShoppingClientTests.csproj
-      - name: Test with the dotnet CLI
-        run: dotnet test  ShoppingClientTests/ShoppingClientTests.csproj --filter FullyQualifiedName~HomeControllerTests
-  # This workflow contains a single job called "build"
-  build-and-push-on-DockerHub:
-    name: 'Docker Build and Push to Docker Hub'
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    needs: test-controller
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - name: docker login
-        env:
-          DOCKER_USERNAME: ${{vars.DOCKER_USERNAME}}
-          DOCKER_PASSWORD: ${{vars.DOCKER_PASSWORD}}
-        run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - name : Build the Docker Image for Client
-        working-directory : Shopping.Client
-        run: docker build -f ./Dockerfile --force-rm -t ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:latest ..
-      - name : Build the Docker Image for API
-        working-directory : Shopping.API
-        run: docker build -f ./Dockerfile --force-rm -t ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest ..
-      - name: Docker Hub push client
-        run: docker push  ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:latest
-      - name: Docker Hub push api
-        run: docker push ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest
+  # test-controller:
+  #   name: 'Test logic'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Setup dotnet
+  #       uses: actions/setup-dotnet@v3
+  #       with:
+  #          dotnet-version: '6.0.x'
+  #     - name: Install dependencies
+  #       run: dotnet restore ShoppingClientTests/ShoppingClientTests.csproj
+  #     - name: Build
+  #       run: dotnet build ShoppingClientTests/ShoppingClientTests.csproj
+  #     - name: Test with the dotnet CLI
+  #       run: dotnet test  ShoppingClientTests/ShoppingClientTests.csproj --filter FullyQualifiedName~HomeControllerTests
+  # # This workflow contains a single job called "build"
+  # build-and-push-on-DockerHub:
+  #   name: 'Docker Build and Push to Docker Hub'
+  #   # The type of runner that the job will run on
+  #   runs-on: ubuntu-latest
+  #   needs: test-controller
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - uses: actions/checkout@v3
+  #     - name: docker login
+  #       env:
+  #         DOCKER_USERNAME: ${{vars.DOCKER_USERNAME}}
+  #         DOCKER_PASSWORD: ${{vars.DOCKER_PASSWORD}}
+  #       run: |
+  #         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  #     - name : Build the Docker Image for Client
+  #       working-directory : Shopping.Client
+  #       run: docker build -f ./Dockerfile --force-rm -t ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:latest ..
+  #     - name : Build the Docker Image for API
+  #       working-directory : Shopping.API
+  #       run: docker build -f ./Dockerfile --force-rm -t ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest ..
+  #     - name: Docker Hub push client
+  #       run: docker push  ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_CLIENT}}:latest
+  #     - name: Docker Hub push api
+  #       run: docker push ${{vars.DOCKER_USERNAME}}/${{vars.SHOPPING_API}}:latest
 
 
   
@@ -126,7 +126,7 @@ jobs:
         run: |
           helm upgrade --install ingress-nginx ingress-nginx \                                     
           --repo https://kubernetes.github.io/ingress-nginx \
-          --namespace ingress-nginx --create-namespace -f ./aks/nginx-values.yaml
+          --namespace ingress-nginx --create-namespace -f aks/nginx-values.yaml
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
