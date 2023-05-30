@@ -35,7 +35,7 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
 
   network_profile {
     network_plugin = "kubenet"
-    load_balancer_sku = ""
+    load_balancer_sku = "standard"
   }
 
 
