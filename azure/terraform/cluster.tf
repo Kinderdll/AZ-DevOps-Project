@@ -55,14 +55,14 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
   }
 
   #SystemAssigned or ServicePrincipal option
-  identity {
-    type = "SystemAssigned" 
-  }
-
-  # service_principal {
-  #   client_id     = var.service_principal_id
-  #   client_secret = var.service_principal_key
+  # identity {
+  #   type = "SystemAssigned" 
   # }
+
+  service_principal {
+    client_id     = var.service_principal_id
+    client_secret = var.service_principal_key
+  }
 
 
 
