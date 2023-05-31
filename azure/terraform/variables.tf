@@ -17,3 +17,31 @@ variable "kubernetes_version" {
 }
 
 variable "ssh_key"{}
+
+variable "frontend_port_name" {
+    default = "myFrontendPort"
+}
+variable "frontend_ip_configuration_name" {
+    default = "myAGIPConfig"
+}
+
+variable "backend_address_pool_name" {
+    default = "myBackendPool"
+}
+variable "http_setting_name" {
+    default = "myHTTPsetting"
+}
+
+variable "listener_name" {
+    default = "myListener"
+}
+
+variable "request_routing_rule_name" {
+    default = "myRoutingRule"
+}
+
+
+
+
+
+
