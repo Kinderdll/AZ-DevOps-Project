@@ -83,15 +83,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Build the frontend image and push it to ACR
-      # uses: docker/build-push-action@v2
-      # with:
-      #   push: true
-      #   tags: kinderdllacr.azurecr.io/shoppingclient:latest
-      #   file: Shopping.Client/Dockerfile
-      #     run: |
-      run: |
-        docker build -t kinderdllacr.azurecr.io/shoppingclient:latest -f Shopping.Client/Dockerfile .
-        docker push kinderdllacr.azurecr.io/shoppingclient:latest
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: kinderdllacr.azurecr.io/shoppingclient:latest
+        file: Shopping.Client/Dockerfile
     - name: Build the backend image and push it to ACR
       uses: docker/build-push-action@v2
       with:
