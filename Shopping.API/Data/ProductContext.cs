@@ -42,42 +42,42 @@ namespace Shopping.API.Data
             {
                 Name = "Phone 1",
                 Description = "Phone 2 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             },
             new Product()
             {
                 Name = "Phone 3",
                 Description = "Phone 3 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             },
             new Product()
             {
                 Name = "Phone 4",
                 Description = "Phone 4 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             },
             new Product()
             {
                 Name = "Phone 5",
                 Description = "Phone 5 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             },
             new Product()
             {
                 Name = "Phone 6",
                 Description = "Phone 6 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             },
             new Product()
             {
                 Name = "Phone 7",
                 Description = "Phone 7 description",
-                Price = 950.00,
+                Price = 950.00M,
                 Category = "Smart Phone"
             }
             };
