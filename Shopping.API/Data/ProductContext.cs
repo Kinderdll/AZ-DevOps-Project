@@ -40,51 +40,45 @@ namespace Shopping.API.Data
             {
                 new Product()
             {
-                Name = "IPhone X",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test1.png",
-                Price = 950.00M,
+                Name = "Phone 1",
+                Description = "Phone 2 description",
+                Price = 950.00,
                 Category = "Smart Phone"
             },
             new Product()
             {
-                Name = "Samsung 10",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test-2.png",
-                Price = 840.00M,
+                Name = "Phone 3",
+                Description = "Phone 3 description",
+                Price = 950.00,
                 Category = "Smart Phone"
             },
             new Product()
             {
-                Name = "Huawei Plus",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "test-3.png",
-                Price = 650.00M,
-                Category = "White Appliances"
-            },
-            new Product()
-            {
-                Name = "Xiaomi Mi 9",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "product-4.png",
-                Price = 470.00M,
-                Category = "White Appliances"
-            },
-            new Product()
-            {
-                Name = "HTC U11+ Plus",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "product-5.png",
-                Price = 380.00M,
+                Name = "Phone 4",
+                Description = "Phone 4 description",
+                Price = 950.00,
                 Category = "Smart Phone"
             },
             new Product()
             {
-                Name = "LG G7 ThinQ EndofCourse",
-                Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
-                ImageFile = "product-6.png",
-                Price = 240.00M,
-                Category = "Home Kitchen"
+                Name = "Phone 5",
+                Description = "Phone 5 description",
+                Price = 950.00,
+                Category = "Smart Phone"
+            },
+            new Product()
+            {
+                Name = "Phone 6",
+                Description = "Phone 6 description",
+                Price = 950.00,
+                Category = "Smart Phone"
+            },
+            new Product()
+            {
+                Name = "Phone 7",
+                Description = "Phone 7 description",
+                Price = 950.00,
+                Category = "Smart Phone"
             }
             };
         }
