@@ -70,8 +70,8 @@ jobs:
         shell: bash
     steps:
     - name: Set up Azure CLI
-        uses: azure/login@v1
-        with:
+      uses: azure/login@v1
+      with:
           creds: ${{ vars.AZURE_CREDENTIALS }}
     - name: Get ACR password
       run: |
