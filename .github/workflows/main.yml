@@ -122,9 +122,9 @@ jobs:
             echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
             sudo apt-get update
             sudo apt-get install helm
-      - name: Install NGINX via helm
-        run: |
-          helm upgrade --install ingress-nginx ingress-nginx  --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz --values nginx/nginx-values.yaml
+      #- name: Install NGINX via helm
+      #  run: |
+      #    helm upgrade --install ingress-nginx ingress-nginx  --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz --values nginx/nginx-values.yaml
 
       - name: Deploy to Kubernetes
         run: |
