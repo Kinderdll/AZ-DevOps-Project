@@ -69,9 +69,13 @@ jobs:
       run:
         shell: bash
     steps:
+    - name: Set up Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ vars.AZURE_CREDENTIALS }}
     - name: Get ACR password
       run: |
-         acrPassword=$(az acr credential show --name <acr_name> --query passwords[0].value --output tsv)
+         acrPassword=$(az acr credential show --name kinderdllacr --query passwords[0].value --output tsv)
          echo "ACR_PASSWORD=${acrPassword}" >> $GITHUB_ENV
     - name: 'Docker Login'
       uses: azure/docker-login@v1
