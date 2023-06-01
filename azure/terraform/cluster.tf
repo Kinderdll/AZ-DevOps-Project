@@ -66,10 +66,10 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
 
 
 
-   ingress_application_gateway {
-      gateway_name = "aks-cluster-ingress"
-      subnet_cidr = "10.225.0.0/16"
-    }
+  #  ingress_application_gateway {
+  #     gateway_name = "aks-cluster-ingress"
+  #     subnet_cidr = "10.225.0.0/16"
+  #   }
   
   #IN case we need to access node
   linux_profile {
