@@ -118,6 +118,7 @@ jobs:
       - name: Enable Ingress Gateway Controller
         if: steps.check-ingress.outputs.is_enabled != 'True'
         run: |
+          appgwId=$(az network application-gateway show -n <application-gateway-name> -g <resource-group-name> -o tsv --query "id") 
           az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id $appgwId
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
