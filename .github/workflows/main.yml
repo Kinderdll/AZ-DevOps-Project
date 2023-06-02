@@ -114,14 +114,15 @@ jobs:
         run: |    
           appgwId=$(az network application-gateway show -n appgateway -g myResourceGroup -o tsv --query "id") 
           az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id $appgwId
-      - name: Get Application Gateway ID
-        id: get-appgw-id
+      - name: Check Ingress Gateway Controller status
+        id: check-ingress
         run: |
-           appgwId=$(az network application-gateway show -n appgateway -g myResourceGroup -o tsv --query "id")
-           echo "::set-output name=appgwId::$appgwId"
-      - name: Enable Ingress App Gateway
+          is_enabled=$(az aks show -n myAKSCluster -g myResourceGroup --query 'addonProfiles.ingressApplicationGateway.enabled' -o tsv)
+          echo "::set-output name=is_enabled::$is_enabled"
+      - name: Enable Ingress Gateway Controller
+        if: steps.check-ingress.outputs.is_enabled != 'True'
         run: |
-          az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id ${{ steps.get-appgw-id.outputs.appgwId }}
+          az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id $appgwId
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
         with:
