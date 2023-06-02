@@ -133,3 +133,4 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/do/deploy.yaml

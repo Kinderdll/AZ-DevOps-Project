@@ -37,11 +37,3 @@ test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var ser
 terraform plan -var ssh_key="$SSH_KEY" -out plan.tfplan -destroy
 EXPOR CREDS to \.kube\config
 az aks get-credentials -n myAKSCluster -g myResourceGroup 
-
-####NOTES###
-
--- Once you deploy terraform files:
-Also update acr password gitlab vars
--- 
-
-
