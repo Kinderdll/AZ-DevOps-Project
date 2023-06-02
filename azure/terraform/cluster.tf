@@ -47,12 +47,12 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
     os_disk_size_gb     = 30
   }
 
-  network_profile {
-    network_plugin     = "azure"
-    dns_service_ip     = "10.0.1.10"  # Update with an IP address within the subnet's range
-    service_cidr       = "10.0.1.0/24"  # Update with the subnet CIDR
-    network_policy     = "azure"  # Optional: Update with your desired network policy plugin
-  }
+  # network_profile {
+  #   network_plugin     = "azure"
+  #   dns_service_ip     = "10.0.1.10"  # Update with an IP address within the subnet's range
+  #   service_cidr       = "10.0.1.0/24"  # Update with the subnet CIDR
+  #   network_policy     = "azure"  # Optional: Update with your desired network policy plugin
+  # }
 
   #SystemAssigned or ServicePrincipal option
   # identity {
@@ -70,6 +70,7 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
   #     gateway_name = "aks-cluster-ingress"
   #     subnet_cidr = "10.225.0.0/16"
   #   }
+    
   
   #IN case we need to access node
   linux_profile {
