@@ -110,11 +110,18 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ vars.AZURE_CREDENTIALS }}
-      - name: Get ACR Image Digest
-        id: get_image_digest
+      - name: Enable Ingress Controller Add-on in AKS
+        run: |    
+          appgwId=$(az network application-gateway show -n appgateway -g myResourceGroup -o tsv --query "id") 
+          az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id $appgwId
+      - name: Get Application Gateway ID
+        id: get-appgw-id
         run: |
-            echo "::set-output name=shoppingapi::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingapi:latest)"
-            echo "::set-output name=shoppingclient::$(docker inspect --format='{{index .RepoDigests 0}}' kinderdllacr.azurecr.io/shoppingclient:latest)"
+           appgwId=$(az network application-gateway show -n appgateway -g myResourceGroup -o tsv --query "id")
+        echo "::set-output name=appgwId::$appgwId"
+      - name: Enable Ingress App Gateway
+        run: |
+          az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id ${{ steps.get-appgw-id.outputs.appgwId }}
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
         with:
