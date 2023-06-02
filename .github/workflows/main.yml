@@ -118,7 +118,7 @@ jobs:
         id: get-appgw-id
         run: |
            appgwId=$(az network application-gateway show -n appgateway -g myResourceGroup -o tsv --query "id")
-        echo "::set-output name=appgwId::$appgwId"
+           echo "::set-output name=appgwId::$appgwId"
       - name: Enable Ingress App Gateway
         run: |
           az aks enable-addons -n myAKSCluster -g myResourceGroup -a ingress-appgw --appgw-id ${{ steps.get-appgw-id.outputs.appgwId }}
