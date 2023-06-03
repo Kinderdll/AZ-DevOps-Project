@@ -43,7 +43,7 @@ resource "azurerm_application_gateway" "gateway" {
     tier     = "Standard_v2"
     capacity = 1
   }
-
+  
   gateway_ip_configuration {
     name      = "gateway_ip_configuration"
     subnet_id = azurerm_subnet.frontend.id
@@ -63,6 +63,16 @@ resource "azurerm_application_gateway" "gateway" {
     name = local.backend_address_pool_name
   }
 
+  probe {
+    name     = "myAKSProbe"
+    protocol = "Http"
+    path     = "/"
+    timeout              = 120
+    interval             = 30
+    unhealthy_threshold  = 8
+    pick_host_name_from_backend_http_settings = true
+  }
+
   backend_http_settings {
     name                  = local.http_setting_name
     cookie_based_affinity = "Disabled"
@@ -70,6 +80,8 @@ resource "azurerm_application_gateway" "gateway" {
     port                  = 80
     protocol              = "Http"
     request_timeout       = 60
+    probe_name            = "myAKSProbe"
+    pick_host_name_from_backend_address = true
   }
 
   http_listener {
