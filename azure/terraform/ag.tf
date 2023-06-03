@@ -66,7 +66,7 @@ resource "azurerm_application_gateway" "gateway" {
   probe {
     name     = "myAKSProbe"
     protocol = "Http"
-    path     = "/"
+    path     = "/health"
     timeout              = 120
     interval             = 30
     unhealthy_threshold  = 8

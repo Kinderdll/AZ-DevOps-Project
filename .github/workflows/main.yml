@@ -131,3 +131,25 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f aks/.
+      # - name: Create and apply custom probe
+      #   run: |
+      #     az network application-gateway probe create --gateway-name appgateway --resource-group myResourceGroup --name myCustomProbe --protocol http --path "/" --interval <interval> --timeout <timeout> --unhealthy-threshold <unhealthy-threshold>
+
+      # - name: Wait for probe
+      #   run: |
+      #     az network application-gateway probe wait --gateway-name <application-gateway-name> --resource-group <resource-group-name> --name <probe-name>
+
+      # - name: Deploy your application or perform other actions
+      #   run: |
+      #     # Perform your deployment or other necessary actions
+      # - name: Create Custom probe
+      #   run: |
+      #     az network application-gateway probe create \
+      #         --resource-group "myResourceGroup" \
+      #         --gateway-name "appgateway" \
+      #         --name "customProbe" \
+      #         --protocol "http" \
+      #         --path "/"" \
+      #         --interval "30" \
+      #         --timeout "120" \
+              --unhealthy-threshold "8"
