@@ -152,4 +152,4 @@ jobs:
       #         --path "/"" \
       #         --interval "30" \
       #         --timeout "120" \
-              --unhealthy-threshold "8"
+      #        --unhealthy-threshold "8"
