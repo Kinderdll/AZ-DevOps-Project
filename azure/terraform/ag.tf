@@ -22,6 +22,30 @@ resource "azurerm_public_ip" "agpublic" {
   allocation_method   = "Static"
 }
 
+resource "azurerm_network_security_group" "myNSG" {
+  name                = "myNSG"
+  location            = azurerm_resource_group.myResourceGroup.location
+  resource_group_name = azurerm_resource_group.myResourceGroup.name
+
+  # Define your NSG rules and other settings here
+    security_rule {
+    name                       = "custom_rule"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "myAssocation" {
+  subnet_id                 = azurerm_subnet.aksSubnet.id
+  network_security_group_id = azurerm_network_security_group.myNSG.id
+}
+
 # since these variables are re-used - a locals block makes this more maintainable
 locals {
   backend_address_pool_name      = "${azurerm_virtual_network.aksVirtualNetwork.name}-beap"
@@ -41,7 +65,7 @@ resource "azurerm_application_gateway" "gateway" {
    sku {
     name     = "Standard_v2"
     tier     = "Standard_v2"
-    capacity = 1
+    capacity = 2
   }
   
   gateway_ip_configuration {
@@ -62,26 +86,25 @@ resource "azurerm_application_gateway" "gateway" {
   backend_address_pool {
     name = local.backend_address_pool_name
   }
+  #   probe {
+  #   name     = "myAKSProbe"
+  #   protocol = "Http"
+  #   path     = "/health"
+  #   timeout              = 120
+  #   interval             = 30
+  #   unhealthy_threshold  = 8
+  #  }
 
-  probe {
-    name     = "myAKSProbe"
-    protocol = "Http"
-    path     = "/health"
-    timeout              = 120
-    interval             = 30
-    unhealthy_threshold  = 8
-    pick_host_name_from_backend_http_settings = true
-  }
 
   backend_http_settings {
     name                  = local.http_setting_name
     cookie_based_affinity = "Disabled"
-    path                  = "/"
     port                  = 80
     protocol              = "Http"
     request_timeout       = 60
-    probe_name            = "myAKSProbe"
-    pick_host_name_from_backend_address = true
+    # pick_host_name_from_backend_address = true
+
+
   }
 
   http_listener {
