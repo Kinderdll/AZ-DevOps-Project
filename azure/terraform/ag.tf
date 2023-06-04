@@ -41,10 +41,7 @@ resource "azurerm_network_security_group" "myNSG" {
   }
 }
 
-resource "azurerm_subnet_network_security_group_association" "myAssocation" {
-  subnet_id                 = azurerm_subnet.aksSubnet.id
-  network_security_group_id = azurerm_network_security_group.myNSG.id
-}
+
 
 # since these variables are re-used - a locals block makes this more maintainable
 locals {
@@ -86,14 +83,6 @@ resource "azurerm_application_gateway" "gateway" {
   backend_address_pool {
     name = local.backend_address_pool_name
   }
-  #   probe {
-  #   name     = "myAKSProbe"
-  #   protocol = "Http"
-  #   path     = "/health"
-  #   timeout              = 120
-  #   interval             = 30
-  #   unhealthy_threshold  = 8
-  #  }
 
 
   backend_http_settings {
@@ -102,9 +91,7 @@ resource "azurerm_application_gateway" "gateway" {
     port                  = 80
     protocol              = "Http"
     request_timeout       = 60
-    # pick_host_name_from_backend_address = true
-
-
+    probe_name = "myProbe"
   }
 
   http_listener {
@@ -122,4 +109,19 @@ resource "azurerm_application_gateway" "gateway" {
     backend_address_pool_name  = local.backend_address_pool_name
     backend_http_settings_name = local.http_setting_name
   }
+
+    probe {
+    name               = "myProbe"
+    protocol           = "Http"
+    path               = "/"
+    interval           = 30
+    timeout            = 120
+    unhealthy_threshold = 3
+    host = "127.0.0.1"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "myAssocation" {
+  subnet_id                 = azurerm_subnet.frontend.id
+  network_security_group_id = azurerm_network_security_group.myNSG.id
 }
