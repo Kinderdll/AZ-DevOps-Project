@@ -62,10 +62,10 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
 
 
 
-  #  ingress_application_gateway {
-  #     gateway_name = "aks-cluster-ingress"
-  #     subnet_cidr = "10.225.0.0/16"
-  #   }
+   ingress_application_gateway {
+      gateway_name = "aks-cluster-ingress"
+      subnet_cidr = "10.225.0.0/16"
+    }
     
   
   #IN case we need to access node
@@ -80,7 +80,23 @@ resource "azurerm_kubernetes_cluster" "myAKSCluster" {
   }
 }
 
+# resource "azurerm_network_security_group" "mynsg" {
+#   name                = "mynsg"
+#   location            = azurerm_resource_group.myResourceGroup.location
+#   resource_group_name = azurerm_resource_group.myResourceGroup.name
 
+#   security_rule {
+#     name                       = "AllowAppGatewayHealthProbes"
+#     priority                   = 100
+#     direction                  = "Inbound"
+#     access                     = "Allow"
+#     protocol                   = "Tcp"
+#     source_port_range          = "*"
+#     destination_port_range     = "65503-65534"
+#     source_address_prefix      = "*"
+#     destination_address_prefix = "*"
+#   }
+# }
 
 
 
