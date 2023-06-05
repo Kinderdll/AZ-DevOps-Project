@@ -1,5 +1,3 @@
-
-
 resource "azurerm_public_ip" "agpublic" {
   name                = "agpublic-pip"
   resource_group_name = azurerm_resource_group.myResourceGroup.name
@@ -7,27 +5,6 @@ resource "azurerm_public_ip" "agpublic" {
   sku                 = "Standard"
   allocation_method   = "Static"
 }
-
-resource "azurerm_network_security_group" "myNSG" {
-  name                = "myNSG"
-  location            = azurerm_resource_group.myResourceGroup.location
-  resource_group_name = azurerm_resource_group.myResourceGroup.name
-
-  # Define your NSG rules and other settings here
-    security_rule {
-    name                       = "custom_rule"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-}
-
-
 
 # since these variables are re-used - a locals block makes this more maintainable
 locals {
@@ -83,6 +60,7 @@ resource "azurerm_application_gateway" "gateway" {
     port                  = 80
     protocol              = "Http"
     request_timeout       = 60
+    path ="/"
   }
 
   http_listener {
@@ -102,7 +80,7 @@ resource "azurerm_application_gateway" "gateway" {
   }
  
   depends_on = [azurerm_virtual_network.aksVirtualNetwork, azurerm_public_ip.agpublic]
-}
 
+}
 
 
