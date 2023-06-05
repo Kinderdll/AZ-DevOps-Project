@@ -66,9 +66,10 @@ spec:
   - http:
       paths:
       - path: /
+        pathType: Exact
         backend:
           service:
             name: shoppingclient-service
             port:
               number: 80
-        pathType: Exact
+        

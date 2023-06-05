@@ -18,18 +18,14 @@ resource "azurerm_subnet" "aksSubnet" {
   resource_group_name  = azurerm_resource_group.myResourceGroup.name
   virtual_network_name = azurerm_virtual_network.aksVirtualNetwork.name
   address_prefixes     = ["10.0.1.0/24"]  
-
-
-  #Delegation is only Needed when you need your AKS to connect to ACI
-  # delegation {
-  #   name = "aksDelegation"
-  #   service_delegation {
-  #     name    = "Microsoft.ContainerInstance/containerGroups"
-  #     actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-  #   }
-  # }
 }
 
+resource "azurerm_subnet" "agSubnet" {
+  name                 = "agSubnet"
+  resource_group_name  = azurerm_resource_group.myResourceGroup.name
+  virtual_network_name = azurerm_virtual_network.aksVirtualNetwork.name
+  address_prefixes     = ["10.0.2.0/24"]  
+}
 
 # Create the AKS cluster
 resource "azurerm_kubernetes_cluster" "myAKSCluster" {
