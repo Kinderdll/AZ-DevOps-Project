@@ -1,8 +1,6 @@
 We will setup service principal to interact with our infrastructure, give it permissions to manage everything
 az login
-TENANT_ID=<copy-paste your TENANT_ID>
 az account list -o table 
-SUBSCRIPTION=<cop-paste your SUBSCRIPTION_ID>
 just to make sure that any commands we run , will target this subscription, so
 az account set --subscription $SUBSCRIPTION
 
@@ -11,9 +9,10 @@ SERVICE_PRINCIPAL_JSON=$(az ad sp create-for-rbac --skip-assignment --name myAKS
 SERVICE_PRINCIPAL=$(echo $SERVICE_PRINCIPAL_JSON | jq -r '.appId')
 SERVICE_PRINCIPAL_SECRET=$(echo $SERVICE_PRINCIPAL_JSON | jq -r '.password')
 Currently this SP has no permissions so we need to give at least Contributor permissions, so it can manage infrastructure
+#Grants full access to manage all resources, including the ability to assign roles in Azure RBAC. (Owner)
 az role assignment create --assignee $SERVICE_PRINCIPAL \
 --scope "/subscriptions/$SUBSCRIPTION" \
---role Contributor
+--role Owner 
 (or we could narrow it down to resource group adding <--scope>/resourceGroups/$RESOURCEGROUP" )
 
 
@@ -36,4 +35,4 @@ test plan : terraform plan -var service_principal_id=$SERVICE_PRINCIPAL -var ser
 
 terraform plan -var ssh_key="$SSH_KEY" -out plan.tfplan -destroy
 EXPOR CREDS to \.kube\config
-az aks get-credentials -n myAKSCluster -g myResourceGroup 
+az aks get-credentials -n myAKSCluster -g myResourceGroup --overwrite-existing
