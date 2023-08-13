@@ -14,16 +14,16 @@
 #   depends_on           = [azurerm_user_assigned_identity.assignedIdentity]
 # }
 
-resource "azurerm_role_assignment" "ra3" {
-  scope                = azurerm_application_gateway.gateway.id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.assignedIdentity.principal_id
-  depends_on           = [azurerm_user_assigned_identity.assignedIdentity, azurerm_application_gateway.gateway]
-}
+# resource "azurerm_role_assignment" "ra3" {
+#   scope                = azurerm_application_gateway.gateway.id
+#   role_definition_name = "Contributor"
+#   principal_id         = azurerm_user_assigned_identity.assignedIdentity.principal_id
+#   depends_on           = [azurerm_user_assigned_identity.assignedIdentity, azurerm_application_gateway.gateway]
+# }
 
-resource "azurerm_role_assignment" "ra4" {
-  scope                = azurerm_resource_group.myResourceGroup.id
-  role_definition_name = "Reader"
-  principal_id         = azurerm_user_assigned_identity.assignedIdentity.principal_id
-  depends_on           = [azurerm_user_assigned_identity.assignedIdentity, azurerm_application_gateway.gateway]
-}
+# resource "azurerm_role_assignment" "ra4" {
+#   scope                = azurerm_resource_group.myResourceGroup.id
+#   role_definition_name = "Reader"
+#   principal_id         = azurerm_user_assigned_identity.assignedIdentity.principal_id
+#   depends_on           = [azurerm_user_assigned_identity.assignedIdentity, azurerm_application_gateway.gateway]
+# }
